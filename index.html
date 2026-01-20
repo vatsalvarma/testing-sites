@@ -12,43 +12,33 @@
   --border:rgba(255,255,255,.15);
   --glow:#00f6ff;
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;}
 html,body{
   background:var(--bg);
   color:#fff;
   font-family:Inter,system-ui,sans-serif;
   overflow-x:hidden;
 }
-
-/* NAV */
 nav{
-  position:fixed;top:0;width:100%;
-  padding:15px 40px;
+  position:fixed;top:0;width:100%;padding:15px 40px;
   display:flex;justify-content:space-between;
-  backdrop-filter:blur(12px);
-  z-index:5;
+  backdrop-filter:blur(12px);z-index:5;
 }
 nav a{
-  color:white;text-decoration:none;
-  margin-left:20px;opacity:.85
+  color:white;text-decoration:none;margin-left:20px;opacity:.85;
 }
-nav a:hover{opacity:1}
+nav a:hover{opacity:1;}
 
-/* SECTIONS */
 section{
   min-height:100vh;
   padding:120px 8%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  position:relative;
-  z-index:2;
+  display:flex;align-items:center;
+  justify-content:center;text-align:center;
+  position:relative;z-index:2;
 }
-h1{font-size:clamp(2.8rem,6vw,5rem)}
-h2{font-size:2.3rem;margin-bottom:20px}
+h1{font-size:clamp(2.8rem,6vw,5rem);}
+h2{font-size:2.3rem;margin-bottom:20px;}
 
-/* CARDS */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -60,20 +50,14 @@ h2{font-size:2.3rem;margin-bottom:20px}
   border-radius:18px;
   padding:25px;
   backdrop-filter:blur(10px);
-  transform-style:preserve-3d;
   box-shadow:0 0 30px rgba(0,246,255,.08);
 }
 
-/* CANVAS */
 canvas{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
+  position:fixed;inset:0;z-index:0;pointer-events:none;
 }
 
-/* CONTACT */
-.contact p{line-height:1.8;opacity:.85}
+.contact p{opacity:.85;line-height:1.8;}
 </style>
 </head>
 
@@ -149,18 +133,18 @@ canvas{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <script>
-/* LENIS */
+// === Lenis Smooth Scroll ===
 const lenis = new Lenis({ smooth:true });
-let scrollVal = 0;
-lenis.on("scroll", e => scrollVal = e.scroll);
-function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+let scrollPos = 0;
+lenis.on("scroll", e => scrollPos = e.scroll);
+function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 
-/* THREE */
+// === Three.js Scene ===
 const scene = new THREE.Scene();
 scene.fog = new THREE.Fog(0x05070c, 6, 20);
 
-const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, .1, 100);
+const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 100);
 camera.position.z = 6;
 
 const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
@@ -168,64 +152,58 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
 document.body.appendChild(renderer.domElement);
 
-/* LIGHTS */
-scene.add(new THREE.AmbientLight(0xffffff,.7));
-const glow = new THREE.PointLight(0x00f6ff,2);
-glow.position.set(4,4,4);
-scene.add(glow);
+// Lights
+scene.add(new THREE.AmbientLight(0xffffff,0.6));
+const point = new THREE.PointLight(0x00f6ff,2);
+point.position.set(4,4,4);
+scene.add(point);
 
-/* SPACESHIP */
+// Spaceship Geometry (no file needed)
 const ship = new THREE.Group();
-
 const body = new THREE.Mesh(
   new THREE.ConeGeometry(.45,2,32),
-  new THREE.MeshStandardMaterial({
-    color:0x00f6ff, metalness:.8, roughness:.2
-  })
+  new THREE.MeshStandardMaterial({ color:0x00f6ff, metalness:.8, roughness:.2 })
 );
 body.rotation.x = Math.PI/2;
-
 const cockpit = new THREE.Mesh(
   new THREE.SphereGeometry(.32,32,32),
-  new THREE.MeshStandardMaterial({
-    color:0xffffff, emissive:0x00f6ff
-  })
+  new THREE.MeshStandardMaterial({ color:0xffffff, emissive:0x00f6ff })
 );
 cockpit.position.z = .6;
-
 ship.add(body,cockpit);
 scene.add(ship);
 
-/* MOUSE */
-let mx=0,my=0;
-addEventListener("mousemove",e=>{
-  mx=(e.clientX/innerWidth-.5)*2;
-  my=(e.clientY/innerHeight-.5)*2;
+// Mouse tilt
+let mx=0, my=0;
+addEventListener("mousemove", e => {
+  mx = (e.clientX/innerWidth - .5)*2;
+  my = (e.clientY/innerHeight - .5)*2;
 });
 
-/* ANIMATE */
+// Animate
 function animate(){
   ship.rotation.y += (mx - ship.rotation.y)*.05;
   ship.rotation.x += (-my - ship.rotation.x)*.05;
-  ship.position.z = -scrollVal*.01;
-  renderer.render(scene,camera);
+  ship.position.z = -scrollPos * .01;
+  renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
 animate();
 
-addEventListener("resize",()=>{
-  camera.aspect=innerWidth/innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight);
-});
-
-/* CARD ANIMS */
+// Card fade animations
 gsap.registerPlugin(ScrollTrigger);
 gsap.utils.toArray(".card").forEach(card=>{
   gsap.from(card,{
-    y:80,opacity:0,rotateX:20,duration:1,
-    scrollTrigger:{trigger:card,start:"top 85%"}
+    y:80, opacity:0, rotateX:20, duration:1,
+    scrollTrigger:{ trigger:card, start:"top 85%" }
   });
+});
+
+// Handle resize
+addEventListener("resize", ()=>{
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
 });
 </script>
 
