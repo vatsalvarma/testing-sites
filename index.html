@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Auth UI – Glass Nature</title>
+<title>Welcome Back – Login</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 :root {
   --primary: #22c55e;
   --secondary: #38bdf8;
-  --glass: rgba(255,255,255,0.75);
+  --glass: rgba(255,255,255,0.78);
   --border: rgba(255,255,255,0.35);
   --text-dark: #0f172a;
 }
@@ -36,66 +36,43 @@ body {
 /* ===== Card ===== */
 .auth-card {
   width: 380px;
-  backdrop-filter: blur(18px);
   background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 40px 30px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-  animation: fadeUp 0.8s ease;
+  backdrop-filter: blur(18px);
+  border-radius: 22px;
+  padding: 42px 32px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+  animation: cardIn 0.9s ease;
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== Welcome Text ===== */
+.welcome {
+  text-align: center;
+  margin-bottom: 28px;
+  animation: fadeText 1.2s ease;
+}
+
+.welcome h1 {
+  font-size: 28px;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.welcome p {
+  font-size: 14px;
+  color: #475569;
+}
+
+@keyframes fadeText {
+  from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Tabs ===== */
-.tabs {
-  display: flex;
-  margin-bottom: 30px;
-  position: relative;
-}
-
-.tabs button {
-  flex: 1;
-  background: none;
-  border: none;
-  color: #475569;
-  font-size: 18px;
-  padding: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-weight: 600;
-}
-
-.tabs button.active {
-  color: var(--text-dark);
-}
-
-.tab-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  border-radius: 10px;
-  transition: transform 0.4s ease;
-}
-
-/* ===== Forms ===== */
-.forms {
-  display: flex;
-  width: 200%;
-  transition: transform 0.5s ease;
-}
-
-form {
-  width: 50%;
-}
-
-/* ===== Input ===== */
+/* ===== Inputs ===== */
 .input-group {
   position: relative;
   margin-bottom: 22px;
@@ -104,12 +81,18 @@ form {
 .input-group input {
   width: 100%;
   padding: 14px 12px;
-  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
   border: 1px solid rgba(0,0,0,0.2);
-  border-radius: 12px;
-  color: var(--text-dark);
+  background: rgba(255,255,255,0.95);
   font-size: 15px;
+  color: var(--text-dark);
   outline: none;
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.25);
 }
 
 .input-group label {
@@ -135,8 +118,8 @@ form {
 /* ===== Button ===== */
 .auth-btn {
   width: 100%;
-  padding: 14px;
-  border-radius: 14px;
+  padding: 15px;
+  border-radius: 16px;
   border: none;
   font-size: 16px;
   font-weight: 600;
@@ -147,8 +130,12 @@ form {
 }
 
 .auth-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(34,197,94,0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px rgba(34,197,94,0.55);
+}
+
+.auth-btn:active {
+  transform: scale(0.97);
 }
 
 /* ===== Footer ===== */
@@ -165,7 +152,6 @@ form {
   font-weight: 500;
 }
 
-/* ===== Mobile ===== */
 @media (max-width: 420px) {
   .auth-card {
     width: 92%;
@@ -177,70 +163,29 @@ form {
 <body>
 
 <div class="auth-card">
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab(0)">Login</button>
-    <button class="tab-btn" onclick="switchTab(1)">Register</button>
-    <div class="tab-indicator"></div>
+  <div class="welcome">
+    <h1>Welcome Back 👋</h1>
+    <p>Please login to continue</p>
   </div>
 
-  <div class="forms">
-    <!-- Login -->
-    <form>
-      <div class="input-group">
-        <input type="email" required placeholder=" ">
-        <label>Email</label>
-      </div>
+  <form>
+    <div class="input-group">
+      <input type="text" required placeholder=" ">
+      <label>Username</label>
+    </div>
 
-      <div class="input-group">
-        <input type="password" required placeholder=" ">
-        <label>Password</label>
-      </div>
+    <div class="input-group">
+      <input type="password" required placeholder=" ">
+      <label>Password</label>
+    </div>
 
-      <button class="auth-btn">Login</button>
+    <button class="auth-btn">Login</button>
 
-      <div class="footer-text">
-        Forgot password? <a href="#">Reset</a>
-      </div>
-    </form>
-
-    <!-- Register -->
-    <form>
-      <div class="input-group">
-        <input type="text" required placeholder=" ">
-        <label>Full Name</label>
-      </div>
-
-      <div class="input-group">
-        <input type="email" required placeholder=" ">
-        <label>Email</label>
-      </div>
-
-      <div class="input-group">
-        <input type="password" required placeholder=" ">
-        <label>Password</label>
-      </div>
-
-      <button class="auth-btn">Create Account</button>
-
-      <div class="footer-text">
-        By signing up you agree to our <a href="#">Terms</a>
-      </div>
-    </form>
-  </div>
+    <div class="footer-text">
+      Forgot password? <a href="#">Reset</a>
+    </div>
+  </form>
 </div>
-
-<script>
-const forms = document.querySelector('.forms');
-const indicator = document.querySelector('.tab-indicator');
-const buttons = document.querySelectorAll('.tab-btn');
-
-function switchTab(index) {
-  forms.style.transform = `translateX(-${index * 50}%)`;
-  indicator.style.transform = `translateX(${index * 100}%)`;
-  buttons.forEach(btn => btn.classList.remove('active'));
-  buttons[index].classList.add('active');
-}
-</script>
 
 </body>
 </html>
