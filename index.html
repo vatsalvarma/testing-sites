@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Welcome Back – Login</title>
+<title>Spring AI Assistant</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
 <style>
+/* ================= LOGIN PAGE STYLES ================= */
 :root {
   --primary: #22c55e;
   --secondary: #38bdf8;
@@ -18,10 +21,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-body {
+/* ===== LOGIN BODY ===== */
+body.login {
   min-height: 100vh;
   background:
     linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
@@ -31,9 +34,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* ===== Card ===== */
+/* ===== LOGIN CARD ===== */
 .auth-card {
   width: 380px;
   background: var(--glass);
@@ -41,25 +45,16 @@ body {
   border-radius: 22px;
   padding: 42px 32px;
   box-shadow: 0 30px 70px rgba(0,0,0,0.45);
-  animation: cardIn 0.9s ease;
 }
 
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(30px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* ===== Welcome Text ===== */
 .welcome {
   text-align: center;
   margin-bottom: 28px;
-  animation: fadeText 1.2s ease;
 }
 
 .welcome h1 {
   font-size: 28px;
   color: var(--text-dark);
-  margin-bottom: 6px;
 }
 
 .welcome p {
@@ -67,12 +62,6 @@ body {
   color: #475569;
 }
 
-@keyframes fadeText {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== Inputs ===== */
 .input-group {
   position: relative;
   margin-bottom: 22px;
@@ -85,14 +74,7 @@ body {
   border: 1px solid rgba(0,0,0,0.2);
   background: rgba(255,255,255,0.95);
   font-size: 15px;
-  color: var(--text-dark);
   outline: none;
-  transition: 0.3s;
-}
-
-.input-group input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(34,197,94,0.25);
 }
 
 .input-group label {
@@ -102,10 +84,10 @@ body {
   transform: translateY(-50%);
   font-size: 14px;
   color: #64748b;
-  pointer-events: none;
-  transition: 0.3s;
   background: #fff;
   padding: 0 6px;
+  pointer-events: none;
+  transition: 0.3s;
 }
 
 .input-group input:focus + label,
@@ -115,7 +97,6 @@ body {
   color: var(--primary);
 }
 
-/* ===== Button ===== */
 .auth-btn {
   width: 100%;
   padding: 15px;
@@ -125,67 +106,165 @@ body {
   font-weight: 600;
   cursor: pointer;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #022c22;
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.auth-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 35px rgba(34,197,94,0.55);
+/* ================= CHAT PAGE STYLES ================= */
+
+body.chat {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('https://i.pinimg.com/1200x/54/68/5a/54685afae0ce67b2ccd8f8ee58b38e79.jpg') no-repeat center center/cover;
+  font-family: 'Roboto', sans-serif;
 }
 
-.auth-btn:active {
-  transform: scale(0.97);
+.chat-container {
+  width: 90%;
+  max-width: 700px;
+  height: 80vh;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-/* ===== Footer ===== */
-.footer-text {
+.chat-header {
+  padding: 20px;
   text-align: center;
-  margin-top: 18px;
-  font-size: 13px;
-  color: #475569;
+  font-size: 1.5rem;
+  color: #fff;
 }
 
-.footer-text a {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: 500;
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-@media (max-width: 420px) {
-  .auth-card {
-    width: 92%;
-  }
+.message {
+  display: flex;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.bubble {
+  padding: 15px 20px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  max-width: 70%;
+}
+
+.message.user .bubble {
+  background: rgba(0,123,255,0.7);
+}
+
+.chat-input {
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.chat-input button {
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: none;
+  background: #00c6ff;
+  color: #fff;
+  font-weight: bold;
 }
 </style>
 </head>
 
-<body>
+<body class="login">
 
-<div class="auth-card">
+<!-- ========== LOGIN PAGE ========== -->
+<div class="auth-card" id="loginPage">
   <div class="welcome">
     <h1>Welcome Back 👋</h1>
     <p>Please login to continue</p>
   </div>
 
-  <form>
-    <div class="input-group">
-      <input type="text" required placeholder=" ">
-      <label>Username</label>
-    </div>
+  <div class="input-group">
+    <input type="text" id="username" placeholder=" " required>
+    <label>Username</label>
+  </div>
 
-    <div class="input-group">
-      <input type="password" required placeholder=" ">
-      <label>Password</label>
-    </div>
+  <div class="input-group">
+    <input type="password" id="password" placeholder=" " required>
+    <label>Password</label>
+  </div>
 
-    <button class="auth-btn">Login</button>
-
-    <div class="footer-text">
-      Forgot password? <a href="#">Reset</a>
-    </div>
-  </form>
+  <button class="auth-btn" onclick="login()">Login</button>
 </div>
+
+<!-- ========== CHAT PAGE ========== -->
+<div class="chat-container" id="chatPage">
+  <div class="chat-header">🌸 Spring AI Assistant</div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="message assistant">
+      <div class="bubble">Hello! I am your AI assistant ✨</div>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+function login() {
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
+
+  if (u === "vhere" && p === "v123") {
+    document.body.className = "chat";
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("chatPage").style.display = "flex";
+  } else {
+    alert("Invalid credentials");
+  }
+}
+
+function sendMessage() {
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  const userMsg = document.createElement("div");
+  userMsg.className = "message user";
+  userMsg.innerHTML = `<div class="bubble">${text}</div>`;
+  chatMessages.appendChild(userMsg);
+  input.value = "";
+
+  setTimeout(() => {
+    const aiMsg = document.createElement("div");
+    aiMsg.className = "message assistant";
+    aiMsg.innerHTML = `<div class="bubble">Hi how are you v? 😊</div>`;
+    chatMessages.appendChild(aiMsg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }, 800);
+}
+</script>
 
 </body>
 </html>
