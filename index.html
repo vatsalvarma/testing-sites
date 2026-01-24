@@ -8,43 +8,48 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-/* ================= LOGIN PAGE STYLES ================= */
+/* ================= ROOT ================= */
 :root {
   --primary: #22c55e;
   --secondary: #38bdf8;
-  --glass: rgba(255,255,255,0.78);
-  --border: rgba(255,255,255,0.35);
-  --text-dark: #0f172a;
+  --glass: rgba(255,255,255,0.18);
+  --white-soft: rgba(255,255,255,0.25);
 }
 
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ===== LOGIN BODY ===== */
+/* ================= LOGIN PAGE ================= */
 body.login {
   min-height: 100vh;
   background:
-    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
     url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1920");
   background-size: cover;
   background-position: center;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* ===== LOGIN CARD ===== */
 .auth-card {
   width: 380px;
-  background: var(--glass);
+  background: rgba(255,255,255,0.75);
   backdrop-filter: blur(18px);
-  border-radius: 22px;
+  border-radius: 24px;
   padding: 42px 32px;
-  box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+  box-shadow: 0 40px 90px rgba(0,0,0,0.5);
+  animation: floatCard 6s ease-in-out infinite, fadeIn 1s ease forwards;
+}
+
+@keyframes floatCard {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .welcome {
@@ -54,12 +59,6 @@ body.login {
 
 .welcome h1 {
   font-size: 28px;
-  color: var(--text-dark);
-}
-
-.welcome p {
-  font-size: 14px;
-  color: #475569;
 }
 
 .input-group {
@@ -69,32 +68,10 @@ body.login {
 
 .input-group input {
   width: 100%;
-  padding: 14px 12px;
+  padding: 14px;
   border-radius: 14px;
-  border: 1px solid rgba(0,0,0,0.2);
-  background: rgba(255,255,255,0.95);
-  font-size: 15px;
+  border: none;
   outline: none;
-}
-
-.input-group label {
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: #64748b;
-  background: #fff;
-  padding: 0 6px;
-  pointer-events: none;
-  transition: 0.3s;
-}
-
-.input-group input:focus + label,
-.input-group input:not(:placeholder-shown) + label {
-  top: -7px;
-  font-size: 12px;
-  color: var(--primary);
 }
 
 .auth-btn {
@@ -102,53 +79,78 @@ body.login {
   padding: 15px;
   border-radius: 16px;
   border: none;
-  font-size: 16px;
-  font-weight: 600;
   cursor: pointer;
+  font-weight: 700;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
+  transition: all 0.4s cubic-bezier(.4,0,.2,1);
 }
 
-/* ================= CHAT PAGE STYLES ================= */
+.auth-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
 
+/* ================= CHAT PAGE ================= */
 body.chat {
   min-height: 100vh;
+  background: url('https://i.pinimg.com/1200x/54/68/5a/54685afae0ce67b2ccd8f8ee58b38e79.jpg') no-repeat center/cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url('https://i.pinimg.com/1200x/54/68/5a/54685afae0ce67b2ccd8f8ee58b38e79.jpg') no-repeat center center/cover;
   font-family: 'Roboto', sans-serif;
+  animation: bgMove 20s linear infinite;
+}
+
+@keyframes bgMove {
+  0% { background-position: center top; }
+  50% { background-position: center center; }
+  100% { background-position: center top; }
 }
 
 .chat-container {
   width: 90%;
-  max-width: 700px;
+  max-width: 720px;
   height: 80vh;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  background: var(--glass);
+  border-radius: 26px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.45);
   display: none;
   flex-direction: column;
   overflow: hidden;
+  backdrop-filter: blur(0px);
+  animation: fadeInUp 1s ease forwards;
 }
 
+/* ================= HEADER ================= */
 .chat-header {
   padding: 20px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: #fff;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
 }
 
+/* ================= MESSAGES ================= */
 .chat-messages {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
 .message {
   display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  animation: messageIn 0.6s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+@keyframes messageIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .message.user {
@@ -156,46 +158,81 @@ body.chat {
 }
 
 .bubble {
-  padding: 15px 20px;
-  border-radius: 25px;
-  background: rgba(255,255,255,0.2);
+  padding: 16px 22px;
+  border-radius: 26px;
+  background: var(--white-soft);
   color: #fff;
   max-width: 70%;
+  animation: floatBubble 5s ease-in-out infinite;
+}
+
+@keyframes floatBubble {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 .message.user .bubble {
   background: rgba(0,123,255,0.7);
 }
 
+/* ================= ANIME AVATAR ================= */
+.message.assistant::before {
+  content: "";
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: url('https://i.pinimg.com/1200x/54/68/5a/54685afae0ce67b2ccd8f8ee58b38e79.jpg') no-repeat center/cover;
+  border: 2px solid rgba(255,255,255,0.6);
+  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+  animation: pulseGlow 3s infinite;
+}
+
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+  50% { box-shadow: 0 0 30px rgba(255,255,255,0.8); }
+}
+
+/* ================= INPUT ================= */
 .chat-input {
-  padding: 15px;
+  padding: 18px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  background: rgba(255,255,255,0.1);
 }
 
 .chat-input input {
   flex: 1;
-  padding: 12px;
-  border-radius: 25px;
+  padding: 14px 18px;
+  border-radius: 28px;
   border: none;
+  outline: none;
   background: rgba(255,255,255,0.2);
   color: #fff;
 }
 
 .chat-input button {
-  padding: 12px 20px;
-  border-radius: 25px;
+  padding: 14px 22px;
+  border-radius: 28px;
   border: none;
-  background: #00c6ff;
-  color: #fff;
-  font-weight: bold;
+  cursor: pointer;
+  font-weight: 700;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  transition: 0.4s;
 }
+
+.chat-input button:hover {
+  transform: scale(1.1);
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
 </style>
 </head>
 
 <body class="login">
 
-<!-- ========== LOGIN PAGE ========== -->
+<!-- LOGIN -->
 <div class="auth-card" id="loginPage">
   <div class="welcome">
     <h1>Welcome Back 👋</h1>
@@ -203,19 +240,17 @@ body.chat {
   </div>
 
   <div class="input-group">
-    <input type="text" id="username" placeholder=" " required>
-    <label>Username</label>
+    <input type="text" id="username" placeholder="Username">
   </div>
 
   <div class="input-group">
-    <input type="password" id="password" placeholder=" " required>
-    <label>Password</label>
+    <input type="password" id="password" placeholder="Password">
   </div>
 
   <button class="auth-btn" onclick="login()">Login</button>
 </div>
 
-<!-- ========== CHAT PAGE ========== -->
+<!-- CHAT -->
 <div class="chat-container" id="chatPage">
   <div class="chat-header">🌸 Spring AI Assistant</div>
 
@@ -233,13 +268,13 @@ body.chat {
 
 <script>
 function login() {
-  const u = document.getElementById("username").value;
-  const p = document.getElementById("password").value;
-
-  if (u === "vhere" && p === "v123") {
+  if (
+    document.getElementById("username").value === "vhere" &&
+    document.getElementById("password").value === "v123"
+  ) {
     document.body.className = "chat";
-    document.getElementById("loginPage").style.display = "none";
-    document.getElementById("chatPage").style.display = "flex";
+    loginPage.style.display = "none";
+    chatPage.style.display = "flex";
   } else {
     alert("Invalid credentials");
   }
@@ -247,22 +282,23 @@ function login() {
 
 function sendMessage() {
   const input = document.getElementById("userInput");
-  const text = input.value.trim();
-  if (!text) return;
+  if (!input.value.trim()) return;
 
-  const userMsg = document.createElement("div");
-  userMsg.className = "message user";
-  userMsg.innerHTML = `<div class="bubble">${text}</div>`;
-  chatMessages.appendChild(userMsg);
+  chatMessages.innerHTML += `
+    <div class="message user">
+      <div class="bubble">${input.value}</div>
+    </div>
+  `;
   input.value = "";
 
   setTimeout(() => {
-    const aiMsg = document.createElement("div");
-    aiMsg.className = "message assistant";
-    aiMsg.innerHTML = `<div class="bubble">Hi how are you v? 😊</div>`;
-    chatMessages.appendChild(aiMsg);
+    chatMessages.innerHTML += `
+      <div class="message assistant">
+        <div class="bubble">Hi how are you v? 🌸</div>
+      </div>
+    `;
     chatMessages.scrollTop = chatMessages.scrollHeight;
-  }, 800);
+  }, 900);
 }
 </script>
 
